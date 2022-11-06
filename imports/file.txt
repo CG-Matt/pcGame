@@ -1,0 +1,4 @@
+Hello this is a simple text file
+This is line 2
+This is the next line 
+this is the final line :)

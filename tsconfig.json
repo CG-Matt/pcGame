@@ -1,0 +1,12 @@
+{
+    "compilerOptions":
+    {
+        "target": "ESNext",
+        "module": "ESNext",
+        "outDir": "./out",
+        "resolveJsonModule": true,
+        "moduleResolution": "NodeNext"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "exports", "imports"]
+}

@@ -1,0 +1,102 @@
+import { Session, UserInput, LocalData } from "../../internal/classes/executeTypes.js"
+
+export default
+{
+    name: "print",
+    description: "",
+    execute(session:Session, user_input:UserInput, local_data:LocalData)
+    {
+        const data_type = user_input.array.shift()
+        switch(data_type)
+        {
+            case "session":
+                if(user_input.array.length === 0){user_input.array.push("")}
+                const args = user_input.array[0].split(".")
+                switch(args[0])
+                {
+                    case "commands":
+                        console.log(session.commands.contents)
+                        break;
+
+                    case "websites":
+                        console.log(session.websites.contents)
+                        break;
+
+                    case "tree":
+                        user_input.array.shift()
+                        let resolved = false
+                        user_input.array.forEach((arg, i) =>
+                        {
+                            switch(arg)
+                            {
+                                case "--isp":
+                                    console.log(session.tree.getISP(parseInt(user_input.array[i+1])))
+                                    resolved = true
+
+                                    const isp_args = [...user_input.array] ; isp_args.shift(); isp_args.shift();
+                                    isp_args.forEach((isp_arg, idx) =>
+                                    {
+                                        switch(isp_arg)
+                                        {
+                                            case "--network":
+                                                console.log(session.tree.getNetwork(parseInt(user_input.array[i+1]), parseInt(isp_args[idx + 1])))
+                                                break;
+                                        }
+                                    })
+
+                                    console.log( user_input.array, isp_args )
+
+                                    break;
+                            }
+                        })
+                        if(!resolved){ console.log(session.tree) }
+                        break;
+                        // switch(args[1])
+                        // {
+                        //     case "isp":
+                        //         session.tree.children.forEach(child => console.log(child))
+                        //         break;
+
+                        //     default:
+                        //         console.log(session.tree)
+                        //         break;
+                        // }arg
+                        
+
+                    default:
+                        console.log(session)
+                        break;
+                }
+                break;
+
+            case "user_input":
+                console.log(user_input)
+                break;
+
+            case "local_data":
+                switch(user_input.array[0])
+                {
+                    case "commands":
+                        console.log(local_data.commands.contents)
+                        break;
+
+                    case "location":
+                        console.log(local_data.location)
+                        break;
+
+                    case "client":
+                        console.log(local_data.client)
+                        break;
+
+                    case "dns":
+                        console.log(local_data.dns)
+                        break;
+
+                    default:
+                        console.log(local_data)
+                        break;
+                }
+                break;
+        }
+    }
+}

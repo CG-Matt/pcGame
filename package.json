@@ -1,0 +1,20 @@
+{
+  "name": "pcgame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "out/terminal.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "CG-Matt",
+  "license": "ISC",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.8.4",
+    "@types/prompt-sync": "^4.2.0"
+  }
+}
