@@ -1,9 +1,0 @@
-{
-    "type": "dns",
-    "entries": [
-        {
-            "name": "can_you_see_me",
-            "address": "183.92.36.124"
-        }
-    ]
-}
