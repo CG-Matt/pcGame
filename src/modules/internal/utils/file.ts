@@ -5,9 +5,10 @@ export { splitName }
 function splitName(file_name:string, error_message?:string)
 {
     if(!error_message){ error_message = `File "${file_name}" does not have an extension and therefore cannot be processed` }
-
+    
     const reply = {file_name: "", file_extension: "", full_file_name: file_name, error: ""}
-
+    
+    if(!file_name){ reply.error = "No file name provided"; return reply }
     if(!file_name.includes(".")){ reply.error = error_message; return reply }
 
     const segments = file_name.split(".")
