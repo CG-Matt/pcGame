@@ -1,8 +1,8 @@
 import { startsWithVowel } from "../utils/strings.js";
 
-export { anyError, Error, InvalidDeviceError, InvalidArgumentError, InvalidFileTypeError }
+export { anyError, Error, GenericError, InvalidDeviceError, InvalidArgumentError, InvalidFileTypeError }
 
-type anyError = Error | InvalidDeviceError | InvalidArgumentError | InvalidFileTypeError
+type anyError = Error | GenericError | InvalidDeviceError | InvalidArgumentError | InvalidFileTypeError
 
 class Error
 {
@@ -14,6 +14,14 @@ class Error
     {
         this.name = name
         this.description = description
+    }
+}
+
+class GenericError extends Error
+{
+    constructor(message:string)
+    {
+        super("GenericError", message)
     }
 }
 
