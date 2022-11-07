@@ -11,21 +11,20 @@ export default
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
         const { client, commands } = local_data
-        const { flag, error: flag_error } = user_input.getCommandFlag()
+        const { command_flag } = user_input
         const { file_name, file_extension, full_file_name, error: file_error } = splitName(user_input.shift(), "No file type specified")
 
-        if(flag_error){ return flag_error }
         if(!(client instanceof Computer)){ return new InvalidDeviceError() }
 
-        if(!flag)
+        if(!command_flag)
         {
             const command = commands.fetchOne("ls")
             if(!command){ return `Unexpected error` }
 
-            command.execute(session, user_input, local_data)
+            return command.execute(session, user_input, local_data)
         }
 
-        switch(flag)
+        switch(command_flag)
         {
             case "-n":
             case "--new":
@@ -54,7 +53,7 @@ export default
                 return 1
             
             default:
-                return new InvalidArgumentError(flag)
+                return new InvalidArgumentError(command_flag)
         }
     }
 }
