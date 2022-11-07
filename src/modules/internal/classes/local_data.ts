@@ -35,6 +35,7 @@ class Locator
 class UserInput
 {
     command:string;
+    command_flag:string;
     array:Array<string>;
     isPassed = false;
 
@@ -42,6 +43,13 @@ class UserInput
     {
         this.command = input.shift().toLowerCase()
         this.array = input
+        this.#setCommandFlag()
+    }
+
+    #setCommandFlag()
+    {
+        if(!this.recieved()){ return }
+        if(this.first().startsWith("-")){ this.command_flag = this.shift() }
     }
 
     toString(){ return this.array.join(" ") }
