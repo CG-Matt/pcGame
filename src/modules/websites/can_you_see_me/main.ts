@@ -1,5 +1,4 @@
 import { Session, UserInput, LocalData } from "../../internal/classes/executeTypes.js"
-import { UI } from "../../internal/handlers/ui.js"
 
 export default
 {
