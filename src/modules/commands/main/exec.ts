@@ -10,6 +10,7 @@ export default
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
         const { client } = local_data
+        const { command_flag } = user_input
         
         if(!user_input.recieved()){ return `No file specified to execute` }
         if(!(client instanceof Computer)){ return new InvalidDeviceError() }
@@ -21,23 +22,19 @@ export default
 
         user_input.shift()
 
-        if(user_input.recieved())
+        if(command_flag)
         {
-            if(user_input.first().startsWith("-"))
+            switch(command_flag)
             {
-                const args = user_input.shift()
-                switch(args)
-                {
-                    case "-a":
-                    case "--args":
-                        user_input.shift()
-                        break;
-                }
+                case "-a":
+                case "--args":
+                    user_input.shift()
+                    break;
             }
-            else
-            {
-                user_input.empty()
-            }
+        }
+        else
+        {
+            user_input.empty()
         }
         
         return file.execute(session, user_input, local_data)

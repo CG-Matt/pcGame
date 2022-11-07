@@ -13,13 +13,14 @@ export default
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
         const { client } = local_data
-        const { flag, error } = user_input.getCommandFlag()
+        const { command_flag } = user_input
+        // const { flag, error } = user_input.getCommandFlag()
         let format:string, file:any;
 
         if(!(client instanceof Computer)){ return new InvalidDeviceError() }
-        if(error){ return error }
+        // if(error){ return error }
 
-        if(!flag)
+        if(!command_flag)
         {
             const full_file_name = user_input.shift()
             const { file_name, file_extension, error } = splitName(full_file_name)
@@ -57,16 +58,14 @@ export default
             }
         }
 
-        switch(flag)
+        switch(command_flag)
         {
             case "-ls":
             case "--list":
                 return new List().importArray(readdirSync("imports/").map(file => `File name: ${file}`))
 
             default:
-                return new InvalidArgumentError(flag)
+                return new InvalidArgumentError(command_flag)
         }
-
-        return 1
     }
 }

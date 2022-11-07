@@ -1,5 +1,6 @@
 import { List } from "../../internal/classes/dataFormats.js"
 import { DNSEntry } from "../../internal/classes/dns.js"
+import { InvalidArgumentError } from "../../internal/classes/errors.js"
 import { Session, UserInput, LocalData } from "../../internal/classes/executeTypes.js"
 
 export default
@@ -8,9 +9,11 @@ export default
     description: "Format: <operation> <name> [ip_address]\nModified the local dns registry",
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
-        if(user_input.recieved())
+        const { command_flag } = user_input
+
+        if(command_flag)
         {
-            switch(user_input.first())
+            switch(command_flag)
             {
                 case "-a":
                 case "add":
@@ -35,7 +38,7 @@ export default
                     return list
 
                 default:
-                    return `Unexpected argument ${user_input.array[0]} recieved`
+                    return new InvalidArgumentError(command_flag)
             }
         }
 

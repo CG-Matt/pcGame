@@ -9,12 +9,12 @@ export default
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
         const { client } = local_data
-        let argument:string;
+        const { command_flag } = user_input
 
         if(!(client instanceof Router)){ return new InvalidDeviceError() }
-        if(user_input.recieved())
+        if(command_flag)
         {
-            switch(user_input.first())
+            switch(command_flag)
             {
                 case "-ls":
                 case "--list":

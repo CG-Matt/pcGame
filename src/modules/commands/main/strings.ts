@@ -11,11 +11,10 @@ export default
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
         const { client } = local_data
-        const { flag, error } = user_input.getCommandFlag("No File name provided")
+        const { command_flag: flag } = user_input
         const FILE_NAME = user_input.shift()
 
         if(!(client instanceof Computer)){ return new InvalidDeviceError() }
-        if(error){ return error }
         if(!FILE_NAME){ return `No file name provided` }
 
         const file = client.files.fetch(FILE_NAME)

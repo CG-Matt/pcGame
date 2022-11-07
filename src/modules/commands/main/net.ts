@@ -11,10 +11,9 @@ export default
     description: "Allows you to access location on the network and the internet",
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
-        const { flag, error: err } = user_input.getCommandFlag("Please provide a website name or IP")
+        const { command_flag: flag } = user_input
         let check:any;
 
-        if(err){ return err }
         if(!user_input.recieved()){ return "Please provide more arguments" }
 
         const { domain, error } = getResolvedDomain(user_input.shift().toLowerCase(), session, local_data)
