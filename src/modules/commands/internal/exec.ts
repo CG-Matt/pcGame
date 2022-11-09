@@ -10,32 +10,14 @@ export default
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
         const { client } = local_data
-        const { command_flag } = user_input
         
         if(!user_input.recieved()){ return `No file specified to execute` }
         if(!(client instanceof Computer)){ return new InvalidDeviceError() }
 
-        const file = client.files.fetch(user_input.first())
+        const file = client.files.fetch(user_input.shift())
 
         if(!file){ return `Unable to find file with name "${user_input.first()}"`}
         if(!( file instanceof ExecutableFile)){ return new InvalidFileTypeError(file.name, "executable") }
-
-        user_input.shift()
-
-        if(command_flag)
-        {
-            switch(command_flag)
-            {
-                case "-a":
-                case "--args":
-                    user_input.shift()
-                    break;
-            }
-        }
-        else
-        {
-            user_input.empty()
-        }
         
         return file.execute(session, user_input, local_data)
     }
