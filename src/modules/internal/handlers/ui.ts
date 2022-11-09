@@ -100,7 +100,7 @@ class UI
 
             if((local_data.client instanceof Computer) && (user_input.command.startsWith("./")))
             {
-                command = local_data.commands.fetchOne("exec")
+                command = session.commands.fetchOne("exec")
                 user_input.array.unshift(user_input.command.slice(2))
             }
             else
