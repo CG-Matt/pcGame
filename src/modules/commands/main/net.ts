@@ -67,6 +67,6 @@ function display_website_data(website:Website)
 
 function check_files(website:Website)
 {
-    if(!website.hasFiles()){ return `The domain "${website.name}" does not contain any files` }
     if(!website.allowGuestFileAccess){ return `Access to files in not permitted` }
+    if(!website.hasFiles()){ return `The domain "${website.name}" does not contain any files` }
 }
