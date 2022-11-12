@@ -14,11 +14,9 @@ export default
     {
         const { client } = local_data
         const { command_flag } = user_input
-        // const { flag, error } = user_input.getCommandFlag()
         let format:string, file:any;
 
         if(!(client instanceof Computer)){ return new InvalidDeviceError() }
-        // if(error){ return error }
 
         if(!command_flag)
         {
