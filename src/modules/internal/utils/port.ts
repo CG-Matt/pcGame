@@ -20,7 +20,7 @@ const query =
 
 function parsePortRange(port_range:string)
 {
-    const out = { start: 0, end: 0, error: ""}
+    const out = { start: 0, end: 0, error: "" }
 
     if(!port_range.includes("->"))
     {
