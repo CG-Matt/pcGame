@@ -9,7 +9,9 @@ export default
     description: "Format: <operation> <name> [ip_address]\nModified the local dns registry",
     execute(session:Session, user_input:UserInput, local_data:LocalData)
     {
+        const { dns } = local_data
         const { command_flag } = user_input
+        let name:string, ip_address:string;
 
         if(command_flag)
         {
@@ -17,25 +19,26 @@ export default
             {
                 case "-a":
                 case "add":
-                    if(!user_input.recieved(2)){ return 1 }
+                    if(!user_input.recieved(1)){ return 1 }
 
-                    local_data.dns.insert(new DNSEntry(user_input.array[1], user_input.array[2]))
-                    return `Successfully added "${user_input.array[1]}" to local DNS associated with ip "${user_input.array[2]}"`
+                    [name, ip_address] = user_input.shiftToArray(2)
+                    dns.insert(new DNSEntry(name, ip_address))
+                    return `Successfully added "${name}" to local DNS associated with ip "${ip_address}"`
 
                 case "-rm":
                 case "remove":
-                    if(!user_input.recieved(1)){ return 1 }
-                    if(!local_data.dns.exists(user_input.array[1])){ return `Unable to find local DNS entry with name "${user_input.array[1]}"` }
+                    if(!user_input.recieved()){ return 1 }
 
-                    const resolve = local_data.dns.resolve(user_input.array[1])
-                    local_data.dns.delete(user_input.array[1])
-                    return `Successfully remove "${user_input.array[1]}" entry from local DNS associated with ip "${resolve}"`
+                    [name, ip_address] = user_input.shiftToArray(2)
+                    if(!dns.exists(name)){ return `Unable to find local DNS entry with name "${ip_address}"` }
+
+                    const resolve = dns.resolve(name)
+                    dns.delete(name)
+                    return `Successfully remove "${name}" entry from local DNS associated with ip "${resolve}"`
 
                 case "-ls":
                 case "list":
-                    const list = new List()
-                    local_data.dns.contents.forEach(entry => list.add(entry.display()))
-                    return list
+                    return new List().importArray(dns.contents.map(entry => entry.display()))
 
                 default:
                     return new InvalidArgumentError(command_flag)
