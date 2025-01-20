@@ -1,3 +1,5 @@
 todo.txt
 exports
 out
+node_modules
+package-lock.json
