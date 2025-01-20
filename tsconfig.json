@@ -3,7 +3,7 @@
     {
         "target": "ESNext",
         "module": "NodeNext",
-        "outDir": "./out",
+        "outDir": "build",
         "resolveJsonModule": true,
         "moduleResolution": "NodeNext"
     },
