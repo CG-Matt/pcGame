@@ -7,9 +7,11 @@ import { Router, Computer, Device, Web } from "../classes/devices.js"
 import { Command, CommandContainer } from "../classes/commands.js"
 import { Website, WebsiteContainer } from "../classes/websites.js"
 import { DNSEntry, DNSContainer } from "../classes/dns.js"
+import path from "node:path"
 
-import new_save from "../constants/new_save.json" assert {type:"json"}
-import dns_list from "../constants/dns.json" assert {type:"json"}
+import new_save from "../constants/new_save.json" assert { type: "json" }
+import dns_list from "../constants/dns.json" assert { type: "json" }
+import paths from "../constants/paths.json" assert { type: "json" }
 import { ExecutableFile, GenericFile } from "../classes/files.js"
 
 class Session
@@ -61,13 +63,13 @@ class Session
     {
         this.commands = new CommandContainer()
 
-        const command_groups = readdirSync("./out/modules/commands/").filter(cg => !cg.includes("."))
+        const command_groups = readdirSync(path.resolve(paths.commands)).filter(cg => !cg.includes("."))
         for(const command_group of command_groups)
         {
-            const files = readdirSync(`./out/modules/commands/${command_group}`).filter(f => f.endsWith(".js"))
+            const files = readdirSync(path.resolve(paths.commands, command_group)).filter(f => f.endsWith(".js"))
             for await (const file of files)
             {
-                const { default: command } = await import(`../../commands/${command_group}/${file}`)
+                const { default: command } = await import(path.resolve(paths.commands, command_group, file))
                 if(command)
                 {
                     this.commands.insert(new Command(command.name, command.description, command_group, command.execute))
@@ -80,20 +82,20 @@ class Session
     {
         this.websites = new WebsiteContainer()
 
-        const websites = readdirSync("./out/modules/websites/").filter(website => !website.includes("."))
+        const websites = readdirSync(path.resolve(paths.websites)).filter(website => !website.includes("."))
         for(const website of websites)
         {
-            const { default: main } = await import(`../../websites/${website}/main.js`)
+            const { default: main } = await import(path.resolve(paths.websites, website, "main.js"))
             if(main)
             {
                 this.websites.insert(new Website(main.name, main.allowGuestFileAccess, main.execute))
 
-                if(readdirSync(`./out/modules/websites/${website}/`).includes("files"))
+                if(readdirSync(path.resolve(paths.websites, website)).includes("files"))
                 {
-                    const files = readdirSync(`./out/modules/websites/${website}/files/`).filter(file => file.endsWith(".js"))
+                    const files = readdirSync(path.resolve(paths.websites, website, "files")).filter(file => file.endsWith(".js"))
                     for await (const file_name of files)
                     {
-                        const {default: file} = await import(`../../websites/${website}/files/${file_name}`)
+                        const {default: file} = await import(path.resolve(paths.websites, website, "files", file_name))
                         if(file)
                         {
                             if(file.type == "executable"){ this.websites.fetch(main.name).files.insert(new ExecutableFile(file.name, file.execute))}

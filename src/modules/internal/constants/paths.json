@@ -1,0 +1,4 @@
+{
+    "commands": "./build/modules/commands/",
+    "websites": "./build/modules/websites/"
+}
