@@ -18,6 +18,7 @@ To install and compile the TypeScript:
 ```console
 $ git clone https://www.github.com/CG-Matt/pcGame
 $ cd pcGame
+$ npm install
 $ tsc
 ```
 
